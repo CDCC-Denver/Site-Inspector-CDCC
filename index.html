@@ -10,18 +10,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--blue:#1e3a5f;--blue-light:#2d5a8e;--blue-dark:#0f2440;--accent:#f59e0b;--green:#22c55e;--red:#ef4444;--g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g300:#cbd5e1;--g500:#64748b;--g700:#334155;--g900:#0f172a;--radius:12px}
+:root{--blue:#1e3a5f;--blue-light:#2d5a8e;--blue-dark:#0f2440;--accent:#f59e0b;--green:#22c55e;--red:#ef4444;--g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g500:#64748b;--g700:#334155;--g900:#0f172a;--radius:12px}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--g100);color:var(--g900);min-height:100vh;-webkit-tap-highlight-color:transparent}
 .screen{display:none;min-height:100vh;flex-direction:column}
 .screen.active{display:flex}
 button{-webkit-appearance:none;font-family:inherit}
-
-/* Common */
 .top-bar{background:var(--blue);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
 .top-bar h2{font-size:17px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top-bar .back-btn{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:2px 6px}
 .top-bar .badge{background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:16px;font-size:12px;font-weight:600}
-.top-bar .gear-btn{background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
 .accent-line{height:3px;background:var(--accent)}
 .body-content{flex:1;padding:16px;padding-bottom:100px;overflow-y:auto}
 .btn{padding:14px 24px;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;transition:all 0.15s}
@@ -35,40 +32,26 @@ button{-webkit-appearance:none;font-family:inherit}
 .card{background:#fff;border-radius:var(--radius);box-shadow:0 1px 4px rgba(0,0,0,0.06);overflow:hidden;margin-bottom:12px}
 .input-group{margin-bottom:16px}
 .input-group label{display:block;font-size:12px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px}
-.input-group input,.input-group select{width:100%;padding:12px;border:2px solid var(--g200);border-radius:8px;font-size:15px;font-family:inherit;outline:none;background:#fff}
+.input-group input{width:100%;padding:12px;border:2px solid var(--g200);border-radius:8px;font-size:15px;font-family:inherit;outline:none;background:#fff}
 .input-group input:focus{border-color:var(--blue-light)}
 input[type="file"]{display:none}
-.empty-state{text-align:center;padding:60px 20px;color:var(--g500)}
-.empty-state .icon{font-size:48px;margin-bottom:12px}
-.empty-state p{font-size:14px;margin-bottom:16px;line-height:1.5}
 
-/* ===== CONNECT SCREEN ===== */
-.connect-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));color:#fff;text-align:center}
-.connect-content .app-icon{font-size:56px;margin-bottom:16px}
-.connect-content h1{font-size:24px;font-weight:700;margin-bottom:4px}
-.connect-content .sub{font-size:13px;opacity:0.7;margin-bottom:40px}
-.connect-box{background:rgba(255,255,255,0.1);border-radius:var(--radius);padding:24px;width:100%;max-width:400px;backdrop-filter:blur(10px)}
-.connect-box h3{font-size:15px;margin-bottom:6px}
-.connect-box p{font-size:12px;opacity:0.7;margin-bottom:16px;line-height:1.5}
-.connect-box input{width:100%;padding:12px;border:2px solid rgba(255,255,255,0.2);border-radius:8px;background:rgba(255,255,255,0.1);color:#fff;font-size:15px;outline:none;margin-bottom:12px}
-.connect-box input::placeholder{color:rgba(255,255,255,0.4)}
-.connect-box .btn{margin-top:4px}
-.setup-steps{text-align:left;font-size:12px;line-height:1.7;opacity:0.8;margin-top:16px;padding:12px;background:rgba(0,0,0,0.15);border-radius:8px}
-.setup-steps ol{padding-left:18px}
+/* HOME */
+.home-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));color:#fff;text-align:center}
+.home-content .app-icon{font-size:56px;margin-bottom:16px}
+.home-content h1{font-size:24px;font-weight:700;margin-bottom:4px}
+.home-content .sub{font-size:13px;opacity:0.7;margin-bottom:40px}
+.home-box{background:rgba(255,255,255,0.1);border-radius:var(--radius);padding:24px;width:100%;max-width:400px;backdrop-filter:blur(10px)}
+.home-box h3{font-size:15px;margin-bottom:12px}
+.home-box input{width:100%;padding:14px;border:2px solid rgba(255,255,255,0.2);border-radius:8px;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;outline:none;margin-bottom:12px}
+.home-box input::placeholder{color:rgba(255,255,255,0.4)}
+.recent-list{margin-top:20px;width:100%;max-width:400px}
+.recent-list h4{font-size:12px;text-transform:uppercase;opacity:0.6;margin-bottom:8px;letter-spacing:0.5px}
+.recent-item{background:rgba(255,255,255,0.1);border-radius:8px;padding:14px;margin-bottom:8px;cursor:pointer;text-align:left;border:none;width:100%;color:#fff;font-size:15px;font-weight:500;transition:background 0.15s}
+.recent-item:active{background:rgba(255,255,255,0.2)}
+.recent-item .ri-date{font-size:11px;opacity:0.6;margin-top:2px;font-weight:400}
 
-/* ===== HOME SCREEN ===== */
-.home-header{background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));color:#fff;padding:24px 20px 16px}
-.home-header h1{font-size:20px;font-weight:700;margin-bottom:2px}
-.home-header .sub{font-size:12px;opacity:0.7}
-.project-card{cursor:pointer;padding:16px;transition:box-shadow 0.15s}
-.project-card:active{box-shadow:0 2px 12px rgba(0,0,0,0.1)}
-.project-card h3{font-size:15px;font-weight:600;color:var(--blue);margin-bottom:2px}
-.project-card .pc-path{font-size:11px;color:var(--g500)}
-.new-proj-bar{padding:12px 20px;background:#fff;border-bottom:1px solid var(--g200);display:flex;gap:8px}
-.new-proj-bar input{flex:1;padding:10px;border:2px solid var(--g200);border-radius:8px;font-size:14px;outline:none}
-.new-proj-bar button{padding:10px 16px;border:none;border-radius:8px;background:var(--accent);color:var(--blue-dark);font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
-
-/* ===== CAPTURE ===== */
+/* CAPTURE */
 .capture-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px}
 .take-photo-btn{width:110px;height:110px;border-radius:50%;border:4px solid var(--blue);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
 .take-photo-btn:active{background:var(--blue)}
@@ -92,7 +75,7 @@ input[type="file"]{display:none}
 .photo-strip:empty{display:none}
 .photo-thumb{width:54px;height:54px;border-radius:6px;object-fit:cover;border:2px solid var(--g200);flex-shrink:0}
 
-/* ===== REVIEW ===== */
+/* REVIEW */
 .review-item{background:#fff;border-radius:var(--radius);overflow:hidden;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
 .ri-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--g50);border-bottom:1px solid var(--g200)}
 .ri-header span{font-weight:600;font-size:13px;color:var(--blue)}
@@ -100,110 +83,41 @@ input[type="file"]{display:none}
 .review-item img{width:100%;height:180px;object-fit:cover}
 .review-item p{padding:10px 14px;font-size:13px;color:var(--g700);line-height:1.5}
 
-/* ===== COMPLETE ===== */
-.complete-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;gap:20px;background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));color:#fff}
+/* COMPLETE */
+.complete-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;gap:16px;background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));color:#fff}
 .complete-icon{width:72px;height:72px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px}
-.upload-status{font-size:13px;opacity:0.8;max-width:360px;line-height:1.6}
+.complete-msg{font-size:13px;opacity:0.8;max-width:360px;line-height:1.6}
+.share-card{background:rgba(255,255,255,0.12);border-radius:var(--radius);padding:18px;text-align:left;cursor:pointer;border:2px solid rgba(255,255,255,0.15);width:100%;max-width:380px;transition:all 0.15s}
+.share-card:active{background:rgba(255,255,255,0.2);transform:scale(0.98)}
+.share-card h3{font-size:15px;margin-bottom:3px}
+.share-card p{font-size:12px;opacity:0.7;margin:0}
 
-/* ===== SETTINGS ===== */
-.settings-section{margin-bottom:24px}
-.settings-section h3{font-size:14px;font-weight:600;color:var(--blue);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.3px}
-.setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px;background:#fff;border-radius:8px;margin-bottom:8px}
-.setting-row span{font-size:14px}
-.setting-row .val{font-size:13px;color:var(--g500);max-width:50%;text-align:right;word-break:break-all}
-.disconnect-btn{color:var(--red);font-size:14px;font-weight:600;background:none;border:none;cursor:pointer}
-
-/* ===== OVERLAY ===== */
+/* OVERLAY */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff}
 .overlay.active{display:flex}
 .spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .overlay-text{font-size:14px;opacity:0.9;text-align:center;max-width:280px}
-.overlay-steps{list-style:none;font-size:13px;opacity:0.85;text-align:left;margin-top:8px}
-.overlay-steps li{padding:4px 0}
-.overlay-steps li.done::before{content:"✓ ";color:var(--green)}
-.overlay-steps li.active::before{content:"◌ ";color:var(--accent)}
-.overlay-steps li.pending{opacity:0.4}
 </style>
 </head>
 <body>
 
-<!-- ===== CONNECT DROPBOX ===== -->
-<div id="connectScreen" class="screen">
-  <div class="connect-content">
+<!-- HOME -->
+<div id="homeScreen" class="screen active">
+  <div class="home-content">
     <div class="app-icon">📋</div>
     <h1>Site Inspector Pro</h1>
     <div class="sub">Construction Draw Inspections</div>
-    <div class="connect-box">
-      <h3>Connect to Dropbox</h3>
-      <p>Your inspection reports will be uploaded to Dropbox automatically.</p>
-      <input type="text" id="appKeyInput" placeholder="Dropbox App Key">
-      <button class="btn btn-primary" onclick="startDropboxAuth()">Connect Dropbox →</button>
-      <div class="setup-steps">
-        <strong>One-time setup (2 minutes):</strong>
-        <ol>
-          <li>Go to <strong>dropbox.com/developers/apps</strong></li>
-          <li>Click <strong>Create App</strong></li>
-          <li>Choose <strong>Scoped access</strong> → <strong>Full Dropbox</strong></li>
-          <li>Name it anything (e.g. "Site Inspector")</li>
-          <li>Under <strong>Permissions</strong> tab, enable:<br><strong>files.content.write</strong> and <strong>files.content.read</strong><br>Then click <strong>Submit</strong></li>
-          <li>Under <strong>Settings</strong> tab, add this <strong>Redirect URI</strong>:<br><code id="redirectDisplay" style="word-break:break-all;color:var(--accent)"></code><br>Then click <strong>Add</strong></li>
-          <li>Copy your <strong>App key</strong> and paste it above</li>
-        </ol>
-      </div>
+    <div class="home-box">
+      <h3>Project Name</h3>
+      <input type="text" id="projectInput" placeholder="e.g. 123 Main St — Draw #3">
+      <button class="btn btn-primary" onclick="startInspection()">Start Inspection →</button>
     </div>
-    <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:#fff;max-width:400px;margin-top:16px" onclick="useOfflineMode()">Use without Dropbox</button>
+    <div class="recent-list" id="recentList"></div>
   </div>
 </div>
 
-<!-- ===== HOME / PROJECT LIST ===== -->
-<div id="homeScreen" class="screen">
-  <div class="home-header">
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <div>
-        <h1>Site Inspector Pro</h1>
-        <div class="sub" id="homeStatus">Connected to Dropbox</div>
-      </div>
-      <button class="gear-btn" onclick="showScreen('settingsScreen')" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer">⚙</button>
-    </div>
-  </div>
-  <div class="accent-line"></div>
-  <div class="new-proj-bar">
-    <input type="text" id="newProjInput" placeholder="New project folder name...">
-    <button onclick="createProjectFolder()">+ Create</button>
-  </div>
-  <div class="body-content" id="projectList"></div>
-</div>
-
-<!-- ===== SETTINGS ===== -->
-<div id="settingsScreen" class="screen">
-  <div class="top-bar">
-    <button class="back-btn" onclick="showScreen('homeScreen')">←</button>
-    <h2>Settings</h2>
-  </div>
-  <div class="accent-line"></div>
-  <div class="body-content">
-    <div class="settings-section">
-      <h3>Dropbox</h3>
-      <div class="setting-row">
-        <span>Status</span>
-        <span class="val" id="settingsStatus">Connected</span>
-      </div>
-      <div class="setting-row">
-        <span>Base Folder</span>
-        <span class="val" id="settingsFolder">/Site Inspections</span>
-      </div>
-      <div class="input-group" style="margin-top:12px">
-        <label>Change Base Folder</label>
-        <input type="text" id="baseFolderInput" placeholder="/Site Inspections">
-      </div>
-      <button class="btn btn-sm btn-outline" onclick="saveBaseFolder()">Save Folder Path</button>
-      <button class="btn btn-sm" style="background:none;color:var(--red);margin-top:12px" onclick="disconnectDropbox()">Disconnect Dropbox</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== CAPTURE ===== -->
+<!-- CAPTURE -->
 <div id="captureScreen" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="confirmExitCapture()">←</button>
@@ -240,7 +154,7 @@ input[type="file"]{display:none}
   </div>
 </div>
 
-<!-- ===== REVIEW ===== -->
+<!-- REVIEW -->
 <div id="reviewScreen" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="backToCapture()">←</button>
@@ -250,21 +164,29 @@ input[type="file"]{display:none}
   <div class="body-content" id="reviewList"></div>
   <div class="bottom-bar">
     <button class="btn btn-outline" onclick="backToCapture()" style="background:#fff;color:var(--g700)">+ More</button>
-    <button class="btn btn-success" onclick="generateAndUpload()">Generate & Upload</button>
+    <button class="btn btn-success" onclick="generateReports()">Generate Reports</button>
   </div>
 </div>
 
-<!-- ===== COMPLETE ===== -->
+<!-- COMPLETE -->
 <div id="completeScreen" class="screen">
   <div class="complete-content">
     <div class="complete-icon">✓</div>
-    <h2 style="font-size:22px">Inspection Complete</h2>
-    <div class="upload-status" id="uploadStatusMsg"></div>
-    <button class="btn" style="background:rgba(255,255,255,0.15);color:#fff;max-width:340px;margin-top:16px" onclick="goHome()">Back to Projects</button>
+    <h2 style="font-size:22px">Reports Ready</h2>
+    <div class="complete-msg" id="completeMsg"></div>
+    <div class="share-card" onclick="shareToDropbox()">
+      <h3>📤 Share to Dropbox</h3>
+      <p>Send both PDFs to your Dropbox project folder</p>
+    </div>
+    <div class="share-card" onclick="downloadReports()">
+      <h3>💾 Download to Phone</h3>
+      <p>Save PDFs to your Downloads folder</p>
+    </div>
+    <button class="btn" style="background:rgba(255,255,255,0.15);color:#fff;max-width:380px;margin-top:8px" onclick="goHome()">Done — New Inspection</button>
   </div>
 </div>
 
-<!-- ===== OVERLAY ===== -->
+<!-- OVERLAY -->
 <div id="overlay" class="overlay">
   <div class="spinner"></div>
   <div class="overlay-text" id="overlayText">Working...</div>
@@ -272,163 +194,13 @@ input[type="file"]{display:none}
 
 <script>
 // =============================================
-// DROPBOX AUTH (PKCE)
-// =============================================
-const DROPBOX_AUTH = 'https://www.dropbox.com/oauth2/authorize';
-const DROPBOX_TOKEN = 'https://api.dropboxapi.com/oauth2/token';
-
-function getRedirectURI() {
-  return 'https://cdcc-denver.github.io/site-inspector-cdcc/';
-}
-
-// Show redirect URI on connect screen
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('redirectDisplay').textContent = getRedirectURI();
-});
-
-async function generatePKCE() {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  const verifier = btoa(String.fromCharCode(...array))
-    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier));
-  const challenge = btoa(String.fromCharCode(...new Uint8Array(hash)))
-    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-  return { verifier, challenge };
-}
-
-async function startDropboxAuth() {
-  const appKey = document.getElementById('appKeyInput').value.trim();
-  if (!appKey) { document.getElementById('appKeyInput').style.borderColor = '#ef4444'; return; }
-  localStorage.setItem('dbx_app_key', appKey);
-
-  const { verifier, challenge } = await generatePKCE();
-  localStorage.setItem('dbx_pkce_verifier', verifier);
-
-  const params = new URLSearchParams({
-    client_id: appKey,
-    response_type: 'code',
-    code_challenge: challenge,
-    code_challenge_method: 'S256',
-    redirect_uri: getRedirectURI(),
-    token_access_type: 'offline'
-  });
-  window.location.href = DROPBOX_AUTH + '?' + params;
-}
-
-async function handleAuthCallback() {
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  if (!code) return false;
-
-  window.history.replaceState({}, '', window.location.pathname);
-  showOverlay('Connecting to Dropbox...');
-
-  try {
-    const verifier = localStorage.getItem('dbx_pkce_verifier');
-    const appKey = localStorage.getItem('dbx_app_key');
-    const resp = await fetch(DROPBOX_TOKEN, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        code, grant_type: 'authorization_code',
-        code_verifier: verifier,
-        client_id: appKey,
-        redirect_uri: getRedirectURI()
-      })
-    });
-    const data = await resp.json();
-    if (data.access_token) {
-      localStorage.setItem('dbx_access_token', data.access_token);
-      localStorage.setItem('dbx_refresh_token', data.refresh_token);
-      localStorage.setItem('dbx_token_expiry', Date.now() + data.expires_in * 1000);
-      hideOverlay();
-      return true;
-    } else {
-      throw new Error(data.error_description || 'Auth failed');
-    }
-  } catch (e) {
-    hideOverlay();
-    alert('Dropbox connection failed: ' + e.message);
-    return false;
-  }
-}
-
-// =============================================
-// DROPBOX API
-// =============================================
-async function dbxToken() {
-  const expiry = parseInt(localStorage.getItem('dbx_token_expiry') || '0');
-  if (Date.now() < expiry - 300000) return localStorage.getItem('dbx_access_token');
-  // Refresh
-  const resp = await fetch(DROPBOX_TOKEN, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: localStorage.getItem('dbx_refresh_token'),
-      client_id: localStorage.getItem('dbx_app_key')
-    })
-  });
-  const data = await resp.json();
-  if (!data.access_token) throw new Error('Token refresh failed');
-  localStorage.setItem('dbx_access_token', data.access_token);
-  localStorage.setItem('dbx_token_expiry', Date.now() + data.expires_in * 1000);
-  return data.access_token;
-}
-
-async function dbxListFolders(path) {
-  const token = await dbxToken();
-  const resp = await fetch('https://api.dropboxapi.com/2/files/list_folder', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path: path || '', include_non_downloadable_files: false })
-  });
-  if (resp.status === 409) return []; // folder doesn't exist yet
-  const data = await resp.json();
-  return (data.entries || []).filter(e => e['.tag'] === 'folder').sort((a, b) => a.name.localeCompare(b.name));
-}
-
-async function dbxCreateFolder(path) {
-  const token = await dbxToken();
-  const resp = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path, autorename: false })
-  });
-  return await resp.json();
-}
-
-async function dbxUpload(path, blob) {
-  const token = await dbxToken();
-  const resp = await fetch('https://content.dropboxapi.com/2/files/upload', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'Content-Type': 'application/octet-stream',
-      'Dropbox-API-Arg': JSON.stringify({ path, mode: 'overwrite', autorename: true, mute: false })
-    },
-    body: blob
-  });
-  return await resp.json();
-}
-
-function isDropboxConnected() {
-  return !!localStorage.getItem('dbx_refresh_token') && !!localStorage.getItem('dbx_app_key');
-}
-
-function getBaseFolder() {
-  return localStorage.getItem('dbx_base_folder') || '/Site Inspections';
-}
-
-// =============================================
 // STATE
 // =============================================
-let currentProjectName = '';
-let currentProjectPath = '';
-let offlineMode = false;
-let inspection = { photos: [], currentImageData: null, date: '', time: '' };
+let projectName = '';
+let inspection = { photos: [], currentImageData: null, date: '', time: '', dateShort: '' };
 let recognition = null;
+let photoBlob = null;
+let narrativeBlob = null;
 
 // =============================================
 // NAVIGATION
@@ -438,139 +210,54 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
-
-function showOverlay(text) {
-  document.getElementById('overlayText').textContent = text;
-  document.getElementById('overlay').classList.add('active');
-}
+function showOverlay(t) { document.getElementById('overlayText').textContent = t; document.getElementById('overlay').classList.add('active'); }
 function hideOverlay() { document.getElementById('overlay').classList.remove('active'); }
 
 // =============================================
-// HOME / PROJECT LIST
+// HOME / RECENT PROJECTS
 // =============================================
-async function goHome() {
-  if (!isDropboxConnected() && !offlineMode) { showScreen('connectScreen'); return; }
-
-  if (offlineMode) {
-    document.getElementById('homeStatus').textContent = 'Offline Mode — reports download to phone';
-  } else {
-    document.getElementById('homeStatus').textContent = 'Connected to Dropbox';
-  }
+function goHome() {
   showScreen('homeScreen');
-  await loadProjects();
+  loadRecents();
 }
 
-async function loadProjects() {
-  const container = document.getElementById('projectList');
-
-  if (offlineMode) {
-    container.innerHTML = `<div class="empty-state">
-      <div class="icon">📂</div>
-      <p>In offline mode, enter a project name below and tap Create to start an inspection.</p>
-    </div>`;
-    return;
-  }
-
-  container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--g500)">Loading projects...</div>';
-
-  try {
-    const base = getBaseFolder();
-    const folders = await dbxListFolders(base);
-    if (folders.length === 0) {
-      container.innerHTML = `<div class="empty-state">
-        <div class="icon">🏗️</div>
-        <p>No project folders found in<br><strong>${esc(base)}</strong><br><br>Create one below or add folders in Dropbox.</p>
-      </div>`;
-    } else {
-      container.innerHTML = folders.map(f => `
-        <div class="card project-card" onclick="selectProject('${esc(f.name)}','${esc(f.path_display)}')">
-          <div style="padding:16px">
-            <h3>${esc(f.name)}</h3>
-            <div class="pc-path">${esc(f.path_display)}</div>
-          </div>
-        </div>
-      `).join('');
-    }
-  } catch (e) {
-    container.innerHTML = `<div class="empty-state"><p style="color:var(--red)">Error loading projects: ${esc(e.message)}</p></div>`;
-  }
+function loadRecents() {
+  const recents = JSON.parse(localStorage.getItem('recent_projects') || '[]');
+  const el = document.getElementById('recentList');
+  if (recents.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = '<h4>Recent Projects</h4>' +
+    recents.slice(0, 8).map(r => `
+      <button class="recent-item" onclick="document.getElementById('projectInput').value='${esc(r.name)}';startInspection()">
+        ${esc(r.name)}
+        <div class="ri-date">Last inspected: ${r.date}</div>
+      </button>
+    `).join('');
 }
 
-async function createProjectFolder() {
-  const name = document.getElementById('newProjInput').value.trim();
-  if (!name) return;
-
-  if (offlineMode) {
-    selectProject(name, '');
-    document.getElementById('newProjInput').value = '';
-    return;
-  }
-
-  showOverlay('Creating folder...');
-  try {
-    const path = getBaseFolder() + '/' + name;
-    await dbxCreateFolder(path);
-    document.getElementById('newProjInput').value = '';
-    hideOverlay();
-    await loadProjects();
-  } catch (e) {
-    hideOverlay();
-    alert('Error: ' + e.message);
-  }
-}
-
-function selectProject(name, path) {
-  currentProjectName = name;
-  currentProjectPath = path;
-  startInspection();
+function saveRecent(name) {
+  let recents = JSON.parse(localStorage.getItem('recent_projects') || '[]');
+  recents = recents.filter(r => r.name !== name);
+  recents.unshift({ name, date: new Date().toLocaleDateString() });
+  if (recents.length > 20) recents = recents.slice(0, 20);
+  localStorage.setItem('recent_projects', JSON.stringify(recents));
 }
 
 // =============================================
-// SETTINGS
-// =============================================
-function showSettings() {
-  document.getElementById('settingsStatus').textContent = isDropboxConnected() ? 'Connected' : 'Not connected';
-  document.getElementById('settingsFolder').textContent = getBaseFolder();
-  document.getElementById('baseFolderInput').value = getBaseFolder();
-  showScreen('settingsScreen');
-}
-
-function saveBaseFolder() {
-  const val = document.getElementById('baseFolderInput').value.trim();
-  if (val) {
-    localStorage.setItem('dbx_base_folder', val.startsWith('/') ? val : '/' + val);
-    alert('Base folder updated.');
-  }
-}
-
-function disconnectDropbox() {
-  if (!confirm('Disconnect from Dropbox?')) return;
-  localStorage.removeItem('dbx_access_token');
-  localStorage.removeItem('dbx_refresh_token');
-  localStorage.removeItem('dbx_token_expiry');
-  localStorage.removeItem('dbx_app_key');
-  localStorage.removeItem('dbx_pkce_verifier');
-  showScreen('connectScreen');
-}
-
-function useOfflineMode() {
-  offlineMode = true;
-  goHome();
-}
-
-// =============================================
-// INSPECTION CAPTURE
+// INSPECTION
 // =============================================
 function startInspection() {
+  const name = document.getElementById('projectInput').value.trim();
+  if (!name) { document.getElementById('projectInput').style.borderColor = '#ef4444'; return; }
+  projectName = name;
   const now = new Date();
   inspection = {
-    photos: [],
-    currentImageData: null,
+    photos: [], currentImageData: null,
     date: now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     time: now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
     dateShort: now.toISOString().split('T')[0]
   };
-  document.getElementById('captureTitle').textContent = currentProjectName;
+  photoBlob = null; narrativeBlob = null;
+  document.getElementById('captureTitle').textContent = projectName;
   document.getElementById('photoCountLabel').textContent = '0';
   document.getElementById('photoStrip').innerHTML = '';
   showCaptureMode();
@@ -622,15 +309,14 @@ function saveCurrentPhoto() {
   inspection.currentImageData = null;
   document.getElementById('photoCountLabel').textContent = inspection.photos.length;
   const strip = document.getElementById('photoStrip');
-  strip.innerHTML = inspection.photos.map(p => `<img class="photo-thumb" src="${p.imageData}">`).join('');
+  strip.innerHTML = inspection.photos.map(p => '<img class="photo-thumb" src="' + p.imageData + '">').join('');
   strip.scrollLeft = strip.scrollWidth;
   showCaptureMode();
 }
 
 function confirmExitCapture() {
   if (inspection.photos.length > 0 && !confirm('Exit? Your photos will be lost.')) return;
-  stopSpeech();
-  goHome();
+  stopSpeech(); goHome();
 }
 
 // =============================================
@@ -687,11 +373,12 @@ function showReview() {
     showCaptureMode();
   }
   if (inspection.photos.length === 0) { alert('Take at least one photo.'); return; }
-  document.getElementById('reviewList').innerHTML = inspection.photos.map((p, i) => `
-    <div class="review-item">
-      <div class="ri-header"><span>Photo ${i + 1} — ${p.timestamp}</span><button class="del-btn" onclick="delPhoto(${i})">✕</button></div>
-      <img src="${p.imageData}"><p>${esc(p.description)}</p>
-    </div>`).join('');
+  document.getElementById('reviewList').innerHTML = inspection.photos.map((p, i) =>
+    '<div class="review-item">' +
+      '<div class="ri-header"><span>Photo ' + (i+1) + ' — ' + p.timestamp + '</span>' +
+      '<button class="del-btn" onclick="delPhoto(' + i + ')">✕</button></div>' +
+      '<img src="' + p.imageData + '"><p>' + esc(p.description) + '</p></div>'
+  ).join('');
   showScreen('reviewScreen');
 }
 
@@ -704,67 +391,74 @@ function delPhoto(i) {
 function backToCapture() { showCaptureMode(); showScreen('captureScreen'); }
 
 // =============================================
-// GENERATE & UPLOAD
+// GENERATE REPORTS
 // =============================================
-async function generateAndUpload() {
+async function generateReports() {
   showOverlay('Generating photo report...');
   await sleep(80);
-
-  let photoBlob, narrativeBlob;
   try {
     photoBlob = genPhotoReportPDF();
     document.getElementById('overlayText').textContent = 'Generating narrative...';
     await sleep(80);
     narrativeBlob = genNarrativePDF();
+    saveRecent(projectName);
+    hideOverlay();
+    document.getElementById('completeMsg').innerHTML =
+      '<strong>' + inspection.photos.length + ' photos</strong> documented for<br><strong>' + esc(projectName) + '</strong><br>' + inspection.date;
+    showScreen('completeScreen');
   } catch (e) {
     hideOverlay();
-    alert('PDF generation error: ' + e.message);
-    return;
+    alert('Error: ' + e.message);
   }
+}
 
-  const safeName = currentProjectName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_');
+// =============================================
+// SHARE & DOWNLOAD
+// =============================================
+async function shareToDropbox() {
+  const safeName = projectName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_');
+  const d = inspection.dateShort;
+  const files = [
+    new File([photoBlob], safeName + '_Photo_Report_' + d + '.pdf', { type: 'application/pdf' }),
+    new File([narrativeBlob], safeName + '_Narrative_' + d + '.pdf', { type: 'application/pdf' })
+  ];
 
-  if (isDropboxConnected() && !offlineMode) {
+  if (navigator.canShare && navigator.canShare({ files })) {
     try {
-      // Create date subfolder
-      const folderPath = currentProjectPath + '/' + inspection.dateShort;
-      document.getElementById('overlayText').textContent = 'Creating inspection folder...';
-      await sleep(50);
-      try { await dbxCreateFolder(folderPath); } catch(e) {} // ignore if exists
-
-      document.getElementById('overlayText').textContent = 'Uploading photo report...';
-      await sleep(50);
-      await dbxUpload(folderPath + '/' + safeName + '_Photo_Report.pdf', photoBlob);
-
-      document.getElementById('overlayText').textContent = 'Uploading narrative...';
-      await sleep(50);
-      await dbxUpload(folderPath + '/' + safeName + '_Narrative.pdf', narrativeBlob);
-
-      hideOverlay();
-      document.getElementById('uploadStatusMsg').innerHTML =
-        `<strong>${inspection.photos.length} photos</strong> documented for<br><strong>${esc(currentProjectName)}</strong><br><br>` +
-        `📸 Photo Report — uploaded<br>📝 Narrative — uploaded<br><br>` +
-        `<span style="opacity:0.7">Files saved to:<br>${esc(currentProjectPath + '/' + inspection.dateShort)}</span>`;
-      showScreen('completeScreen');
+      await navigator.share({
+        title: projectName + ' — Inspection ' + d,
+        text: 'Inspection reports for ' + projectName,
+        files: files
+      });
     } catch (e) {
-      hideOverlay();
-      // Fallback: download locally
-      if (confirm('Upload failed: ' + e.message + '\n\nDownload reports to your phone instead?')) {
-        dlBlob(photoBlob, safeName + '_Photo_Report_' + inspection.dateShort + '.pdf');
-        dlBlob(narrativeBlob, safeName + '_Narrative_' + inspection.dateShort + '.pdf');
-        document.getElementById('uploadStatusMsg').innerHTML = 'Reports downloaded to your phone.<br>Upload to Dropbox manually when you have a connection.';
-        showScreen('completeScreen');
+      if (e.name !== 'AbortError') {
+        alert('Share failed. Try downloading instead.');
       }
     }
   } else {
-    // Offline mode — just download
-    hideOverlay();
-    dlBlob(photoBlob, safeName + '_Photo_Report_' + inspection.dateShort + '.pdf');
-    dlBlob(narrativeBlob, safeName + '_Narrative_' + inspection.dateShort + '.pdf');
-    document.getElementById('uploadStatusMsg').innerHTML =
-      `<strong>${inspection.photos.length} photos</strong> documented for<br><strong>${esc(currentProjectName)}</strong><br><br>Reports downloaded to your phone.`;
-    showScreen('completeScreen');
+    // Fallback: share one at a time
+    const file1 = [files[0]];
+    const file2 = [files[1]];
+    if (navigator.canShare && navigator.canShare({ files: file1 })) {
+      try {
+        alert('Your phone will open the share menu twice — once for each report.');
+        await navigator.share({ title: 'Photo Report', files: file1 });
+        await navigator.share({ title: 'Narrative', files: file2 });
+      } catch (e) {
+        if (e.name !== 'AbortError') downloadReports();
+      }
+    } else {
+      alert('Sharing not supported on this browser. Downloading instead.');
+      downloadReports();
+    }
   }
+}
+
+function downloadReports() {
+  const safeName = projectName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_');
+  const d = inspection.dateShort;
+  dlBlob(photoBlob, safeName + '_Photo_Report_' + d + '.pdf');
+  setTimeout(() => dlBlob(narrativeBlob, safeName + '_Narrative_' + d + '.pdf'), 500);
 }
 
 // =============================================
@@ -782,19 +476,19 @@ function genPhotoReportPDF() {
     if (pg > 0) doc.addPage();
     doc.setFillColor(30, 58, 95); doc.rect(0, 0, W, 26, 'F');
     doc.setTextColor(255); doc.setFontSize(13); doc.setFont('helvetica', 'bold');
-    doc.text(currentProjectName, M, 11);
+    doc.text(projectName, M, 11);
     doc.setFontSize(8); doc.setFont('helvetica', 'normal');
     doc.text(inspection.date + '  |  ' + inspection.time, M, 18);
     doc.text('Page ' + (pg + 1) + ' of ' + pages, W - M, 18, { align: 'right' });
     doc.setDrawColor(245, 158, 11); doc.setLineWidth(0.8); doc.line(M, 27, W - M, 27);
 
-    const y0 = 31, rH = (H - y0 - M - 4) / 3, iH = rH - 20;
-    for (let i = 0; i < pp; i++) {
-      const idx = pg * pp + i;
+    var y0 = 31, rH = (H - y0 - M - 4) / 3, iH = rH - 20;
+    for (var i = 0; i < pp; i++) {
+      var idx = pg * pp + i;
       if (idx >= photos.length) break;
-      const p = photos[idx];
-      const col = i % 2, row = Math.floor(i / 2);
-      const x = M + col * (cW + gap), y = y0 + row * rH;
+      var p = photos[idx];
+      var col = i % 2, row = Math.floor(i / 2);
+      var x = M + col * (cW + gap), y = y0 + row * rH;
 
       doc.setFillColor(30, 58, 95);
       doc.roundedRect(x, y, 14, 5, 1, 1, 'F');
@@ -824,13 +518,13 @@ function genNarrativePDF() {
   doc.setTextColor(255); doc.setFontSize(16); doc.setFont('helvetica', 'bold');
   doc.text('Construction Progress Narrative', M, 14);
   doc.setFontSize(10); doc.setFont('helvetica', 'normal');
-  doc.text(currentProjectName, M, 22);
+  doc.text(projectName, M, 22);
   doc.setFontSize(8);
   doc.text(inspection.date + '  |  ' + inspection.time + '  |  ' + photos.length + ' photos', M, 29);
   doc.setDrawColor(245, 158, 11); doc.setLineWidth(0.8); doc.line(M, 35.5, W - M, 35.5);
 
-  let y = 42;
-  function addSection(heading, text) {
+  var y = 42;
+  function addSec(heading, text) {
     if (y > H - 30) { doc.addPage(); y = 20; }
     if (heading) {
       doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(30, 58, 95);
@@ -838,7 +532,7 @@ function genNarrativePDF() {
     }
     if (text) {
       doc.setFontSize(9.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(51, 65, 85);
-      doc.splitTextToSize(text, uW).forEach(l => {
+      doc.splitTextToSize(text, uW).forEach(function(l) {
         if (y > H - 16) { doc.addPage(); y = 20; }
         doc.text(l, M, y); y += 4.5;
       });
@@ -846,26 +540,25 @@ function genNarrativePDF() {
     y += 4;
   }
 
-  addSection('Inspection Overview',
-    `A construction site inspection was conducted on ${inspection.date} at approximately ${inspection.time} for the project "${currentProjectName}". The inspector documented ${photos.length} photograph${photos.length !== 1 ? 's' : ''} during the site visit. The following narrative summarizes observations recorded during the inspection.`);
+  addSec('Inspection Overview',
+    'A construction site inspection was conducted on ' + inspection.date + ' at approximately ' + inspection.time + ' for the project "' + projectName + '". The inspector documented ' + photos.length + ' photograph' + (photos.length !== 1 ? 's' : '') + ' during the site visit. The following narrative summarizes observations recorded during the inspection.');
 
-  addSection('Detailed Observations');
-  photos.forEach((p, i) => {
-    const d = p.description && p.description !== '(No description)' ? p.description.trim() : null;
-    let txt;
+  addSec('Detailed Observations');
+  photos.forEach(function(p, i) {
+    var d = (p.description && p.description !== '(No description)') ? p.description.trim() : null;
+    var txt;
     if (d) {
-      let s = d.charAt(0).toUpperCase() + d.slice(1);
+      var s = d.charAt(0).toUpperCase() + d.slice(1);
       if (!/[.!?]$/.test(s)) s += '.';
-      txt = `Observation ${i + 1} (${p.timestamp}): ${s}`;
+      txt = 'Observation ' + (i + 1) + ' (' + p.timestamp + '): ' + s;
     } else {
-      txt = `Observation ${i + 1} (${p.timestamp}): Photo documented; no description recorded.`;
+      txt = 'Observation ' + (i + 1) + ' (' + p.timestamp + '): Photo documented; no description recorded.';
     }
-    addSection(null, txt);
+    addSec(null, txt);
   });
 
-  // Smart summary
-  const allText = photos.map(p => p.description).join(' ').toLowerCase();
-  const topics = [];
+  var allText = photos.map(function(p) { return p.description; }).join(' ').toLowerCase();
+  var topics = [];
   [
     [/foundation|footing|slab|concrete|pour/i, 'foundation/concrete'],
     [/frame|framing|stud|truss|joist|rafter/i, 'framing'],
@@ -878,18 +571,18 @@ function genNarrativePDF() {
     [/insul|vapor|barrier|wrap/i, 'insulation'],
     [/grade|land|dirt|excav|site\s*work|drive|pav/i, 'site work'],
     [/damage|issue|problem|concern|defect|crack|leak/i, 'potential deficiencies']
-  ].forEach(([rx, label]) => { if (rx.test(allText)) topics.push(label); });
+  ].forEach(function(pair) { if (pair[0].test(allText)) topics.push(pair[1]); });
 
-  let summary = `${photos.length} area${photos.length !== 1 ? 's were' : ' was'} documented. `;
+  var summary = photos.length + ' area' + (photos.length !== 1 ? 's were' : ' was') + ' documented. ';
   if (topics.length) summary += 'Key areas of work observed: ' + topics.join(', ') + '. ';
-  summary += 'Photographs and descriptions herein represent the inspector\'s observations at the time of the site visit.';
-  addSection('Summary', summary);
+  summary += "Photographs and descriptions herein represent the inspector's observations at the time of the site visit.";
+  addSec('Summary', summary);
 
-  addSection('Disclaimer',
+  addSec('Disclaimer',
     'This report is based solely on visual observations made during the inspection. The inspection was limited to readily accessible and visible areas. No destructive or invasive testing was performed. Conditions may exist that were not visible at the time of inspection.');
 
-  const pc = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pc; i++) {
+  var pc = doc.internal.getNumberOfPages();
+  for (var i = 1; i <= pc; i++) {
     doc.setPage(i); doc.setTextColor(150); doc.setFontSize(6);
     doc.text('Site Inspector Pro', W / 2, H - 5, { align: 'center' });
     doc.text('Page ' + i + ' of ' + pc, W - M, H - 5, { align: 'right' });
@@ -901,26 +594,15 @@ function genNarrativePDF() {
 // UTILS
 // =============================================
 function dlBlob(blob, name) {
-  const a = document.createElement('a');
+  var a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = name;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
-function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function sleep(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
-// =============================================
 // INIT
-// =============================================
-(async function init() {
-  // Check for OAuth callback
-  if (window.location.search.includes('code=')) {
-    const ok = await handleAuthCallback();
-    if (ok) { goHome(); return; }
-  }
-  // Check existing connection
-  if (isDropboxConnected()) { goHome(); }
-  else { showScreen('connectScreen'); }
-})();
+loadRecents();
 </script>
 </body>
 </html>
