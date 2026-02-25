@@ -29,14 +29,8 @@ button{-webkit-appearance:none;font-family:inherit}
 .btn-sm{padding:10px 16px;font-size:13px}
 .bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 16px;background:#fff;border-top:1px solid var(--g200);display:flex;gap:10px;z-index:50}
 .bottom-bar .btn{flex:1}
-.card{background:#fff;border-radius:var(--radius);box-shadow:0 1px 4px rgba(0,0,0,0.06);overflow:hidden;margin-bottom:12px}
-.input-group{margin-bottom:16px}
-.input-group label{display:block;font-size:12px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px}
-.input-group input{width:100%;padding:12px;border:2px solid var(--g200);border-radius:8px;font-size:15px;font-family:inherit;outline:none;background:#fff}
-.input-group input:focus{border-color:var(--blue-light)}
 input[type="file"]{display:none}
 
-/* HOME */
 .home-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));color:#fff;text-align:center}
 .home-content .app-icon{font-size:56px;margin-bottom:16px}
 .home-content h1{font-size:24px;font-weight:700;margin-bottom:4px}
@@ -51,7 +45,6 @@ input[type="file"]{display:none}
 .recent-item:active{background:rgba(255,255,255,0.2)}
 .recent-item .ri-date{font-size:11px;opacity:0.6;margin-top:2px;font-weight:400}
 
-/* CAPTURE */
 .capture-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px}
 .take-photo-btn{width:110px;height:110px;border-radius:50%;border:4px solid var(--blue);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
 .take-photo-btn:active{background:var(--blue)}
@@ -75,7 +68,6 @@ input[type="file"]{display:none}
 .photo-strip:empty{display:none}
 .photo-thumb{width:54px;height:54px;border-radius:6px;object-fit:cover;border:2px solid var(--g200);flex-shrink:0}
 
-/* REVIEW */
 .review-item{background:#fff;border-radius:var(--radius);overflow:hidden;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
 .ri-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--g50);border-bottom:1px solid var(--g200)}
 .ri-header span{font-weight:600;font-size:13px;color:var(--blue)}
@@ -83,7 +75,6 @@ input[type="file"]{display:none}
 .review-item img{width:100%;height:180px;object-fit:cover}
 .review-item p{padding:10px 14px;font-size:13px;color:var(--g700);line-height:1.5}
 
-/* COMPLETE */
 .complete-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;gap:16px;background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));color:#fff}
 .complete-icon{width:72px;height:72px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px}
 .complete-msg{font-size:13px;opacity:0.8;max-width:360px;line-height:1.6}
@@ -92,7 +83,6 @@ input[type="file"]{display:none}
 .share-card h3{font-size:15px;margin-bottom:3px}
 .share-card p{font-size:12px;opacity:0.7;margin:0}
 
-/* OVERLAY */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff}
 .overlay.active{display:flex}
 .spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
@@ -102,7 +92,6 @@ input[type="file"]{display:none}
 </head>
 <body>
 
-<!-- HOME -->
 <div id="homeScreen" class="screen active">
   <div class="home-content">
     <div class="app-icon">📋</div>
@@ -117,7 +106,6 @@ input[type="file"]{display:none}
   </div>
 </div>
 
-<!-- CAPTURE -->
 <div id="captureScreen" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="confirmExitCapture()">←</button>
@@ -154,7 +142,6 @@ input[type="file"]{display:none}
   </div>
 </div>
 
-<!-- REVIEW -->
 <div id="reviewScreen" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="backToCapture()">←</button>
@@ -168,7 +155,6 @@ input[type="file"]{display:none}
   </div>
 </div>
 
-<!-- COMPLETE -->
 <div id="completeScreen" class="screen">
   <div class="complete-content">
     <div class="complete-icon">✓</div>
@@ -186,70 +172,52 @@ input[type="file"]{display:none}
   </div>
 </div>
 
-<!-- OVERLAY -->
 <div id="overlay" class="overlay">
   <div class="spinner"></div>
   <div class="overlay-text" id="overlayText">Working...</div>
 </div>
 
 <script>
-// =============================================
-// STATE
-// =============================================
-let projectName = '';
-let inspection = { photos: [], currentImageData: null, date: '', time: '', dateShort: '' };
-let recognition = null;
-let photoBlob = null;
-let narrativeBlob = null;
+var projectName = '';
+var inspection = { photos: [], currentImageData: null, date: '', time: '', dateShort: '' };
+var recognition = null;
+var photoBlob = null;
+var narrativeBlob = null;
 
-// =============================================
-// NAVIGATION
-// =============================================
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
 function showOverlay(t) { document.getElementById('overlayText').textContent = t; document.getElementById('overlay').classList.add('active'); }
 function hideOverlay() { document.getElementById('overlay').classList.remove('active'); }
 
-// =============================================
-// HOME / RECENT PROJECTS
-// =============================================
-function goHome() {
-  showScreen('homeScreen');
-  loadRecents();
-}
+function goHome() { showScreen('homeScreen'); loadRecents(); }
 
 function loadRecents() {
-  const recents = JSON.parse(localStorage.getItem('recent_projects') || '[]');
-  const el = document.getElementById('recentList');
+  var recents = JSON.parse(localStorage.getItem('recent_projects') || '[]');
+  var el = document.getElementById('recentList');
   if (recents.length === 0) { el.innerHTML = ''; return; }
   el.innerHTML = '<h4>Recent Projects</h4>' +
-    recents.slice(0, 8).map(r => `
-      <button class="recent-item" onclick="document.getElementById('projectInput').value='${esc(r.name)}';startInspection()">
-        ${esc(r.name)}
-        <div class="ri-date">Last inspected: ${r.date}</div>
-      </button>
-    `).join('');
+    recents.slice(0, 8).map(function(r) {
+      return '<button class="recent-item" onclick="document.getElementById(\'projectInput\').value=\'' + esc(r.name) + '\';startInspection()">' +
+        esc(r.name) + '<div class="ri-date">Last: ' + r.date + '</div></button>';
+    }).join('');
 }
 
 function saveRecent(name) {
-  let recents = JSON.parse(localStorage.getItem('recent_projects') || '[]');
-  recents = recents.filter(r => r.name !== name);
-  recents.unshift({ name, date: new Date().toLocaleDateString() });
+  var recents = JSON.parse(localStorage.getItem('recent_projects') || '[]');
+  recents = recents.filter(function(r) { return r.name !== name; });
+  recents.unshift({ name: name, date: new Date().toLocaleDateString() });
   if (recents.length > 20) recents = recents.slice(0, 20);
   localStorage.setItem('recent_projects', JSON.stringify(recents));
 }
 
-// =============================================
-// INSPECTION
-// =============================================
 function startInspection() {
-  const name = document.getElementById('projectInput').value.trim();
+  var name = document.getElementById('projectInput').value.trim();
   if (!name) { document.getElementById('projectInput').style.borderColor = '#ef4444'; return; }
   projectName = name;
-  const now = new Date();
+  var now = new Date();
   inspection = {
     photos: [], currentImageData: null,
     date: now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
@@ -266,13 +234,13 @@ function startInspection() {
 
 function handlePhoto(input) {
   if (!input.files || !input.files[0]) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement('canvas');
-      const MAX = 1200;
-      let w = img.width, h = img.height;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var c = document.createElement('canvas');
+      var MAX = 1200;
+      var w = img.width, h = img.height;
       if (w > MAX) { h *= MAX / w; w = MAX; }
       c.width = w; c.height = h;
       c.getContext('2d').drawImage(img, 0, 0, w, h);
@@ -308,8 +276,8 @@ function saveCurrentPhoto() {
   });
   inspection.currentImageData = null;
   document.getElementById('photoCountLabel').textContent = inspection.photos.length;
-  const strip = document.getElementById('photoStrip');
-  strip.innerHTML = inspection.photos.map(p => '<img class="photo-thumb" src="' + p.imageData + '">').join('');
+  var strip = document.getElementById('photoStrip');
+  strip.innerHTML = inspection.photos.map(function(p) { return '<img class="photo-thumb" src="' + p.imageData + '">'; }).join('');
   strip.scrollLeft = strip.scrollWidth;
   showCaptureMode();
 }
@@ -319,34 +287,31 @@ function confirmExitCapture() {
   stopSpeech(); goHome();
 }
 
-// =============================================
-// SPEECH
-// =============================================
 function startSpeech() {
-  const el = document.getElementById('voiceStatus');
-  const ta = document.getElementById('descriptionInput');
+  var el = document.getElementById('voiceStatus');
+  var ta = document.getElementById('descriptionInput');
   if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
     el.className = 'voice-status unavail';
     el.innerHTML = '<span>🎤 Voice unavailable — type below</span>';
     ta.focus(); return;
   }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SR();
   recognition.continuous = true; recognition.interimResults = true; recognition.lang = 'en-US';
-  let final = '';
-  recognition.onresult = e => {
-    let interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
+  var final = '';
+  recognition.onresult = function(e) {
+    var interim = '';
+    for (var i = e.resultIndex; i < e.results.length; i++) {
       if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
       else interim += e.results[i][0].transcript;
     }
     ta.value = final + interim;
   };
-  recognition.onend = () => {
+  recognition.onend = function() {
     el.className = 'voice-status done';
     el.innerHTML = '<span style="font-size:16px">✓</span><span>Done — edit if needed</span>';
   };
-  recognition.onerror = () => {};
+  recognition.onerror = function() {};
   el.className = 'voice-status listening';
   el.innerHTML = '<div class="pulse-dot"></div><span>Listening...</span>';
   try { recognition.start(); } catch(e) {
@@ -357,9 +322,6 @@ function startSpeech() {
 function stopSpeech() { if (recognition) { try { recognition.stop(); } catch(e) {} recognition = null; } }
 function restartVoice() { stopSpeech(); document.getElementById('descriptionInput').value = ''; startSpeech(); }
 
-// =============================================
-// REVIEW
-// =============================================
 function showReview() {
   stopSpeech();
   if (inspection.currentImageData) {
@@ -373,12 +335,12 @@ function showReview() {
     showCaptureMode();
   }
   if (inspection.photos.length === 0) { alert('Take at least one photo.'); return; }
-  document.getElementById('reviewList').innerHTML = inspection.photos.map((p, i) =>
-    '<div class="review-item">' +
+  document.getElementById('reviewList').innerHTML = inspection.photos.map(function(p, i) {
+    return '<div class="review-item">' +
       '<div class="ri-header"><span>Photo ' + (i+1) + ' — ' + p.timestamp + '</span>' +
       '<button class="del-btn" onclick="delPhoto(' + i + ')">✕</button></div>' +
-      '<img src="' + p.imageData + '"><p>' + esc(p.description) + '</p></div>'
-  ).join('');
+      '<img src="' + p.imageData + '"><p>' + esc(p.description) + '</p></div>';
+  }).join('');
   showScreen('reviewScreen');
 }
 
@@ -390,118 +352,151 @@ function delPhoto(i) {
 }
 function backToCapture() { showCaptureMode(); showScreen('captureScreen'); }
 
-// =============================================
-// GENERATE REPORTS
-// =============================================
-async function generateReports() {
+function generateReports() {
   showOverlay('Generating photo report...');
-  await sleep(80);
-  try {
-    photoBlob = genPhotoReportPDF();
-    document.getElementById('overlayText').textContent = 'Generating narrative...';
-    await sleep(80);
-    narrativeBlob = genNarrativePDF();
-    saveRecent(projectName);
-    hideOverlay();
-    document.getElementById('completeMsg').innerHTML =
-      '<strong>' + inspection.photos.length + ' photos</strong> documented for<br><strong>' + esc(projectName) + '</strong><br>' + inspection.date;
-    showScreen('completeScreen');
-  } catch (e) {
-    hideOverlay();
-    alert('Error: ' + e.message);
-  }
+  setTimeout(function() {
+    try {
+      photoBlob = genPhotoReportPDF();
+      document.getElementById('overlayText').textContent = 'Generating narrative...';
+      setTimeout(function() {
+        try {
+          narrativeBlob = genNarrativePDF();
+          saveRecent(projectName);
+          hideOverlay();
+          document.getElementById('completeMsg').innerHTML =
+            '<strong>' + inspection.photos.length + ' photos</strong> documented for<br><strong>' + esc(projectName) + '</strong><br>' + inspection.date;
+          showScreen('completeScreen');
+        } catch(e) { hideOverlay(); alert('Error: ' + e.message); }
+      }, 80);
+    } catch(e) { hideOverlay(); alert('Error: ' + e.message); }
+  }, 80);
 }
 
-// =============================================
-// SHARE & DOWNLOAD
-// =============================================
-async function shareToDropbox() {
-  const safeName = projectName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_');
-  const d = inspection.dateShort;
-  const files = [
+function shareToDropbox() {
+  var safeName = projectName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_');
+  var d = inspection.dateShort;
+  var files = [
     new File([photoBlob], safeName + '_Photo_Report_' + d + '.pdf', { type: 'application/pdf' }),
     new File([narrativeBlob], safeName + '_Narrative_' + d + '.pdf', { type: 'application/pdf' })
   ];
-
-  if (navigator.canShare && navigator.canShare({ files })) {
-    try {
-      await navigator.share({
-        title: projectName + ' — Inspection ' + d,
-        text: 'Inspection reports for ' + projectName,
-        files: files
-      });
-    } catch (e) {
-      if (e.name !== 'AbortError') {
-        alert('Share failed. Try downloading instead.');
-      }
-    }
+  if (navigator.canShare && navigator.canShare({ files: files })) {
+    navigator.share({ title: projectName + ' — Inspection ' + d, files: files }).catch(function(e) {
+      if (e.name !== 'AbortError') alert('Share failed. Try downloading instead.');
+    });
+  } else if (navigator.canShare && navigator.canShare({ files: [files[0]] })) {
+    alert('Your phone will open the share menu twice — once for each report.');
+    navigator.share({ title: 'Photo Report', files: [files[0]] }).then(function() {
+      navigator.share({ title: 'Narrative', files: [files[1]] });
+    }).catch(function(e) { if (e.name !== 'AbortError') downloadReports(); });
   } else {
-    // Fallback: share one at a time
-    const file1 = [files[0]];
-    const file2 = [files[1]];
-    if (navigator.canShare && navigator.canShare({ files: file1 })) {
-      try {
-        alert('Your phone will open the share menu twice — once for each report.');
-        await navigator.share({ title: 'Photo Report', files: file1 });
-        await navigator.share({ title: 'Narrative', files: file2 });
-      } catch (e) {
-        if (e.name !== 'AbortError') downloadReports();
-      }
-    } else {
-      alert('Sharing not supported on this browser. Downloading instead.');
-      downloadReports();
-    }
+    alert('Sharing not supported on this browser. Downloading instead.');
+    downloadReports();
   }
 }
 
 function downloadReports() {
-  const safeName = projectName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_');
-  const d = inspection.dateShort;
+  var safeName = projectName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_');
+  var d = inspection.dateShort;
   dlBlob(photoBlob, safeName + '_Photo_Report_' + d + '.pdf');
-  setTimeout(() => dlBlob(narrativeBlob, safeName + '_Narrative_' + d + '.pdf'), 500);
+  setTimeout(function() { dlBlob(narrativeBlob, safeName + '_Narrative_' + d + '.pdf'); }, 500);
 }
 
 // =============================================
-// PDF: PHOTO REPORT
+// PDF: PHOTO REPORT (matches sample layout)
 // =============================================
 function genPhotoReportPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF('portrait', 'mm', 'letter');
-  const W = 215.9, H = 279.4, M = 14;
-  const uW = W - M * 2, gap = 8, cW = (uW - gap) / 2;
-  const photos = inspection.photos, pp = 6;
-  const pages = Math.ceil(photos.length / pp);
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF('portrait', 'mm', 'letter');
+  var W = 215.9, H = 279.4;
+  var marginL = 16, marginR = 16, marginT = 10;
+  var usableW = W - marginL - marginR;
+  var gap = 10;
+  var colW = (usableW - gap) / 2;
+  var photos = inspection.photos;
+  var pp = 6;
+  var pages = Math.ceil(photos.length / pp);
 
-  for (let pg = 0; pg < pages; pg++) {
+  for (var pg = 0; pg < pages; pg++) {
     if (pg > 0) doc.addPage();
-    doc.setFillColor(30, 58, 95); doc.rect(0, 0, W, 26, 'F');
-    doc.setTextColor(255); doc.setFontSize(13); doc.setFont('helvetica', 'bold');
-    doc.text(projectName, M, 11);
-    doc.setFontSize(8); doc.setFont('helvetica', 'normal');
-    doc.text(inspection.date + '  |  ' + inspection.time, M, 18);
-    doc.text('Page ' + (pg + 1) + ' of ' + pages, W - M, 18, { align: 'right' });
-    doc.setDrawColor(245, 158, 11); doc.setLineWidth(0.8); doc.line(M, 27, W - M, 27);
 
-    var y0 = 31, rH = (H - y0 - M - 4) / 3, iH = rH - 20;
+    // White background header - centered project name
+    var yPos = marginT + 6;
+    doc.setTextColor(30, 58, 95);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text(projectName, W / 2, yPos, { align: 'center' });
+
+    // Inspection date below in teal/blue
+    yPos += 7;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(45, 90, 142);
+    doc.text('Inspection Date:  ' + inspection.date, W / 2, yPos, { align: 'center' });
+
+    // Thin separator line
+    yPos += 5;
+    doc.setDrawColor(200, 210, 220);
+    doc.setLineWidth(0.3);
+    doc.line(marginL, yPos, W - marginR, yPos);
+
+    // Photos area
+    var photoStartY = yPos + 4;
+    var availH = H - photoStartY - 12; // leave room for bottom accent
+    var rowH = availH / 3;
+    var imgH = rowH - 18; // room for caption below
+
     for (var i = 0; i < pp; i++) {
       var idx = pg * pp + i;
       if (idx >= photos.length) break;
       var p = photos[idx];
-      var col = i % 2, row = Math.floor(i / 2);
-      var x = M + col * (cW + gap), y = y0 + row * rH;
+      var col = i % 2;
+      var row = Math.floor(i / 2);
+      var x = marginL + col * (colW + gap);
+      var y = photoStartY + row * rowH;
 
-      doc.setFillColor(30, 58, 95);
-      doc.roundedRect(x, y, 14, 5, 1, 1, 'F');
-      doc.setTextColor(255); doc.setFontSize(6.5); doc.setFont('helvetica', 'bold');
-      doc.text('#' + (idx + 1), x + 7, y + 3.5, { align: 'center' });
-      doc.setDrawColor(200); doc.setLineWidth(0.3); doc.rect(x, y + 6, cW, iH);
-      try { doc.addImage(p.imageData, 'JPEG', x + 0.5, y + 6.5, cW - 1, iH - 1); } catch(e) {}
-      doc.setTextColor(51, 65, 85); doc.setFontSize(7.5); doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(p.description, cW - 2).slice(0, 3), x + 1, y + iH + 10);
+      // Photo image (no border)
+      try {
+        doc.addImage(p.imageData, 'JPEG', x, y, colW, imgH);
+      } catch(e) {
+        doc.setFillColor(230, 230, 230);
+        doc.rect(x, y, colW, imgH, 'F');
+      }
+
+      // Centered caption below photo
+      doc.setTextColor(30, 58, 95);
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      var captionLines = doc.splitTextToSize(p.description, colW - 4);
+      var maxCaptionLines = 2;
+      var printLines = captionLines.slice(0, maxCaptionLines);
+      var captionY = y + imgH + 4;
+      for (var cl = 0; cl < printLines.length; cl++) {
+        doc.text(printLines[cl], x + colW / 2, captionY + (cl * 3.5), { align: 'center' });
+      }
     }
-    doc.setTextColor(150); doc.setFontSize(6);
-    doc.text('Site Inspector Pro', W / 2, H - 5, { align: 'center' });
+
+    // Bottom accent bar (multi-color stripe like the sample)
+    var barY = H - 5;
+    var barH = 2.5;
+    var colors = [
+      [30, 58, 95],    // navy
+      [45, 90, 142],   // blue
+      [0, 150, 136],   // teal
+      [245, 158, 11],  // amber
+      [239, 68, 68]    // red
+    ];
+    var segW = usableW / colors.length;
+    for (var ci = 0; ci < colors.length; ci++) {
+      doc.setFillColor(colors[ci][0], colors[ci][1], colors[ci][2]);
+      doc.rect(marginL + ci * segW, barY, segW + 0.5, barH, 'F');
+    }
+
+    // Page number (subtle)
+    doc.setTextColor(170, 170, 170);
+    doc.setFontSize(7);
+    doc.text('Page ' + (pg + 1) + ' of ' + pages, W / 2, H - 8, { align: 'center' });
   }
+
   return doc.output('blob');
 }
 
@@ -509,21 +504,35 @@ function genPhotoReportPDF() {
 // PDF: NARRATIVE
 // =============================================
 function genNarrativePDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF('portrait', 'mm', 'letter');
-  const W = 215.9, H = 279.4, M = 20, uW = W - M * 2;
-  const photos = inspection.photos;
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF('portrait', 'mm', 'letter');
+  var W = 215.9, H = 279.4, M = 20, uW = W - M * 2;
+  var photos = inspection.photos;
 
-  doc.setFillColor(30, 58, 95); doc.rect(0, 0, W, 34, 'F');
-  doc.setTextColor(255); doc.setFontSize(16); doc.setFont('helvetica', 'bold');
-  doc.text('Construction Progress Narrative', M, 14);
-  doc.setFontSize(10); doc.setFont('helvetica', 'normal');
-  doc.text(projectName, M, 22);
-  doc.setFontSize(8);
-  doc.text(inspection.date + '  |  ' + inspection.time + '  |  ' + photos.length + ' photos', M, 29);
-  doc.setDrawColor(245, 158, 11); doc.setLineWidth(0.8); doc.line(M, 35.5, W - M, 35.5);
+  // Clean header matching photo report style
+  var yPos = 16;
+  doc.setTextColor(30, 58, 95);
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Construction Progress Narrative', W / 2, yPos, { align: 'center' });
 
-  var y = 42;
+  yPos += 8;
+  doc.setFontSize(13);
+  doc.text(projectName, W / 2, yPos, { align: 'center' });
+
+  yPos += 6;
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(45, 90, 142);
+  doc.text(inspection.date + '  |  ' + inspection.time + '  |  ' + photos.length + ' photos', W / 2, yPos, { align: 'center' });
+
+  yPos += 4;
+  doc.setDrawColor(200, 210, 220);
+  doc.setLineWidth(0.3);
+  doc.line(M, yPos, W - M, yPos);
+
+  var y = yPos + 8;
+
   function addSec(heading, text) {
     if (y > H - 30) { doc.addPage(); y = 20; }
     if (heading) {
@@ -581,27 +590,30 @@ function genNarrativePDF() {
   addSec('Disclaimer',
     'This report is based solely on visual observations made during the inspection. The inspection was limited to readily accessible and visible areas. No destructive or invasive testing was performed. Conditions may exist that were not visible at the time of inspection.');
 
+  // Bottom accent bar on each page
   var pc = doc.internal.getNumberOfPages();
+  var colors = [[30,58,95],[45,90,142],[0,150,136],[245,158,11],[239,68,68]];
+  var segW = uW / colors.length;
   for (var i = 1; i <= pc; i++) {
-    doc.setPage(i); doc.setTextColor(150); doc.setFontSize(6);
-    doc.text('Site Inspector Pro', W / 2, H - 5, { align: 'center' });
-    doc.text('Page ' + i + ' of ' + pc, W - M, H - 5, { align: 'right' });
+    doc.setPage(i);
+    doc.setTextColor(170); doc.setFontSize(7);
+    doc.text('Page ' + i + ' of ' + pc, W / 2, H - 8, { align: 'center' });
+    for (var ci = 0; ci < colors.length; ci++) {
+      doc.setFillColor(colors[ci][0], colors[ci][1], colors[ci][2]);
+      doc.rect(M + ci * segW, H - 5, segW + 0.5, 2.5, 'F');
+    }
   }
+
   return doc.output('blob');
 }
 
-// =============================================
-// UTILS
-// =============================================
 function dlBlob(blob, name) {
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = name;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
-function sleep(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
-// INIT
 loadRecents();
 </script>
 </body>
