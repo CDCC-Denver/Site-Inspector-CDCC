@@ -402,48 +402,69 @@ function downloadReports() {
 }
 
 // =============================================
-// PDF: PHOTO REPORT (matches sample layout)
+// PDF: PHOTO REPORT — Premium Layout
 // =============================================
 function genPhotoReportPDF() {
   var jsPDF = window.jspdf.jsPDF;
   var doc = new jsPDF('portrait', 'mm', 'letter');
   var W = 215.9, H = 279.4;
-  var marginL = 16, marginR = 16, marginT = 10;
+
+  // Premium layout constants
+  var marginL = 15, marginR = 15;
   var usableW = W - marginL - marginR;
-  var gap = 10;
-  var colW = (usableW - gap) / 2;
+  var colGap = 7;
+  var colW = (usableW - colGap) / 2;
   var photos = inspection.photos;
-  var pp = 6;
+  var pp = 6; // 6 photos per page
   var pages = Math.ceil(photos.length / pp);
+
+  // Accent bar colors (matching sample: maroon, gold, navy, teal)
+  var accentColors = [
+    [139, 35, 35],   // deep maroon/red
+    [196, 154, 56],  // warm gold
+    [25, 50, 82],    // dark navy
+    [42, 120, 130]   // teal
+  ];
 
   for (var pg = 0; pg < pages; pg++) {
     if (pg > 0) doc.addPage();
 
-    // White background header - centered project name
-    var yPos = marginT + 6;
-    doc.setTextColor(30, 58, 95);
-    doc.setFontSize(16);
+    // ── HEADER AREA ──
+    // Company branding
+    var y = 12;
+    doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
-    doc.text(projectName, W / 2, yPos, { align: 'center' });
+    doc.setTextColor(25, 50, 82);
+    doc.text('CDCC', W / 2, y, { align: 'center' });
 
-    // Inspection date below in teal/blue
-    yPos += 7;
+    // Short gold accent rule under branding
+    y += 2.5;
+    doc.setDrawColor(196, 154, 56);
+    doc.setLineWidth(0.35);
+    doc.line(W / 2 - 8, y, W / 2 + 8, y);
+
+    // Project name — large, commanding, dark navy
+    y += 8;
+    doc.setFontSize(17);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(25, 50, 82);
+    doc.text(projectName, W / 2, y, { align: 'center' });
+
+    // Inspection date — refined blue, tighter to project name
+    y += 6.5;
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(45, 90, 142);
-    doc.text('Inspection Date:  ' + inspection.date, W / 2, yPos, { align: 'center' });
+    doc.setTextColor(42, 100, 150);
+    doc.text('Inspection Date:  ' + inspection.date, W / 2, y, { align: 'center' });
 
-    // Thin separator line
-    yPos += 5;
-    doc.setDrawColor(200, 210, 220);
-    doc.setLineWidth(0.3);
-    doc.line(marginL, yPos, W - marginR, yPos);
-
-    // Photos area
-    var photoStartY = yPos + 4;
-    var availH = H - photoStartY - 12; // leave room for bottom accent
-    var rowH = availH / 3;
-    var imgH = rowH - 18; // room for caption below
+    // ── PHOTO GRID ──
+    var gridTop = y + 7;
+    var gridBottom = H - 12; // room for accent bar
+    var totalGridH = gridBottom - gridTop;
+    var rowGap = 4;
+    var captionH = 9; // space for caption text
+    var rowH = (totalGridH - 2 * rowGap) / 3;
+    var imgH = rowH - captionH;
 
     for (var i = 0; i < pp; i++) {
       var idx = pg * pp + i;
@@ -451,50 +472,46 @@ function genPhotoReportPDF() {
       var p = photos[idx];
       var col = i % 2;
       var row = Math.floor(i / 2);
-      var x = marginL + col * (colW + gap);
-      var y = photoStartY + row * rowH;
+      var x = marginL + col * (colW + colGap);
+      var iy = gridTop + row * (rowH + rowGap);
 
-      // Photo image (no border)
+      // Photo — clean, no border, fills space
       try {
-        doc.addImage(p.imageData, 'JPEG', x, y, colW, imgH);
+        doc.addImage(p.imageData, 'JPEG', x, iy, colW, imgH);
       } catch(e) {
-        doc.setFillColor(230, 230, 230);
-        doc.rect(x, y, colW, imgH, 'F');
+        doc.setFillColor(240, 240, 240);
+        doc.rect(x, iy, colW, imgH, 'F');
+        doc.setTextColor(180, 180, 180);
+        doc.setFontSize(8);
+        doc.text('Photo unavailable', x + colW / 2, iy + imgH / 2, { align: 'center' });
       }
 
-      // Centered caption below photo
-      doc.setTextColor(30, 58, 95);
-      doc.setFontSize(8);
+      // Caption — centered, dark navy, clean small type
+      doc.setTextColor(25, 50, 82);
+      doc.setFontSize(7.5);
       doc.setFont('helvetica', 'normal');
-      var captionLines = doc.splitTextToSize(p.description, colW - 4);
-      var maxCaptionLines = 2;
-      var printLines = captionLines.slice(0, maxCaptionLines);
-      var captionY = y + imgH + 4;
+      var captionLines = doc.splitTextToSize(p.description, colW - 2);
+      var printLines = captionLines.slice(0, 2);
+      var captionY = iy + imgH + 4;
       for (var cl = 0; cl < printLines.length; cl++) {
-        doc.text(printLines[cl], x + colW / 2, captionY + (cl * 3.5), { align: 'center' });
+        doc.text(printLines[cl], x + colW / 2, captionY + cl * 3.2, { align: 'center' });
       }
     }
 
-    // Bottom accent bar (multi-color stripe like the sample)
-    var barY = H - 5;
-    var barH = 2.5;
-    var colors = [
-      [30, 58, 95],    // navy
-      [45, 90, 142],   // blue
-      [0, 150, 136],   // teal
-      [245, 158, 11],  // amber
-      [239, 68, 68]    // red
-    ];
-    var segW = usableW / colors.length;
-    for (var ci = 0; ci < colors.length; ci++) {
-      doc.setFillColor(colors[ci][0], colors[ci][1], colors[ci][2]);
-      doc.rect(marginL + ci * segW, barY, segW + 0.5, barH, 'F');
+    // ── BOTTOM ACCENT BAR ── (edge-to-edge, thin, elegant)
+    var barY = H - 4;
+    var barH = 2;
+    var barW = W / accentColors.length;
+    for (var ci = 0; ci < accentColors.length; ci++) {
+      doc.setFillColor(accentColors[ci][0], accentColors[ci][1], accentColors[ci][2]);
+      doc.rect(ci * barW, barY, barW + 0.3, barH + 2, 'F');
     }
 
-    // Page number (subtle)
+    // Page number — subtle, just above accent bar
     doc.setTextColor(170, 170, 170);
-    doc.setFontSize(7);
-    doc.text('Page ' + (pg + 1) + ' of ' + pages, W / 2, H - 8, { align: 'center' });
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Page ' + (pg + 1) + ' of ' + pages, W / 2, barY - 1.5, { align: 'center' });
   }
 
   return doc.output('blob');
@@ -590,17 +607,17 @@ function genNarrativePDF() {
   addSec('Disclaimer',
     'This report is based solely on visual observations made during the inspection. The inspection was limited to readily accessible and visible areas. No destructive or invasive testing was performed. Conditions may exist that were not visible at the time of inspection.');
 
-  // Bottom accent bar on each page
+  // Bottom accent bar on each page (matching photo report premium style)
   var pc = doc.internal.getNumberOfPages();
-  var colors = [[30,58,95],[45,90,142],[0,150,136],[245,158,11],[239,68,68]];
-  var segW = uW / colors.length;
+  var accentColors = [[139,35,35],[196,154,56],[25,50,82],[42,120,130]];
+  var segW = uW / accentColors.length;
   for (var i = 1; i <= pc; i++) {
     doc.setPage(i);
-    doc.setTextColor(170); doc.setFontSize(7);
+    doc.setTextColor(160, 160, 160); doc.setFontSize(7);
     doc.text('Page ' + i + ' of ' + pc, W / 2, H - 8, { align: 'center' });
-    for (var ci = 0; ci < colors.length; ci++) {
-      doc.setFillColor(colors[ci][0], colors[ci][1], colors[ci][2]);
-      doc.rect(M + ci * segW, H - 5, segW + 0.5, 2.5, 'F');
+    for (var ci = 0; ci < accentColors.length; ci++) {
+      doc.setFillColor(accentColors[ci][0], accentColors[ci][1], accentColors[ci][2]);
+      doc.rect(M + ci * segW, H - 6, segW + 0.3, 2, 'F');
     }
   }
 
